@@ -3,22 +3,534 @@
 #+title:Common LISPcraft
 #+subtitle:{{{version}}} {{{date}}}
 #+author:Robert Wilensky
-#+date:2021-10-17 10:01
-#+macro:version Version 0.0.0
+#+date:1986
+#+updated:2021-10-17 10:43
+#+macro:version Version 0.0.1
 #+macro:upload-date (eval (current-time-string))
 #+bucket:pinecone-forest.com
 
-{{{version}}} {{{date}}}
+{{{version}}} {{{upload-date}}}
 
 #+texinfo:@insertcopying
 
 
-* Introduction
+* Preface
 :PROPERTIES:
-:unnumbered: t
+:UNNUMBERED: t
 :END:
-* Chapter
-
+** The Lisp Language
+LISP is one of the oldest programming langauges in active use today.
+The LISP language was first conceived by Joh McCarthy and his students
+the late 1950s.  The name LISP is an acronym for LISt Processing, a
+reference to the fundamental structure underlying most LISP programs
+and data.
+
+LISP is one of the few older languages to have survived the transition
+to the current era of computer.  LISP has undergone considerable
+evolution.  New features, improved implementations, upgraded
+interfaces.  Whole programming environments have been created and
+integrated.  LISP has been given hardward support in the form of high
+performance LISP machines.
+
+Response to drawbacks in the early conception and implementations of
+the language.  Many of the reasons underlying the reluctance of some
+to accept LISP are no longer valid today.  LISP still maintans a
+vestige of its past reputation as an interesting but impractical
+language.  Recent improvements in computer technology, together with
+the availability of some of the finest softward development
+environments in existence, have done much to change this attitude.
+The LISP community appears to be undergoing a period of rapid
+expansion.
+
+One difficulty with LISP is trying to define exactly what the LISP
+language is.  There is no such thing as a standard LISP.  LISP has
+evolved in a number of different directions.  This has resulted in a
+whole family of LISP languages.  While they share many basic features,
+they differ from one another in substnatial ways.
+
+- MacLISP, a version of LISP developed at MIT
+- INTERLISP, developed at Bold, Beranek, and Newman and Xerox Palo
+  Alto Research Center
+- Portable Standard LISP is another dialect, designed to be easily
+  transportable across different machines.
+- Scheme dialect of LISP, invented by Suyssman and Steele at MIT,
+  contains a rather different interpretation of a number of basic
+  concepts than that found in most other versions of the language.
+- FranzLISP is closely related to MacLISP, developed at the University
+  of California at Berkeley.
+** Common Lisp
+Recently there has been an attempt to standardize many of the
+innovations that have entered into the different LISP dialects.  The
+result of this atempt at synthesizing LISP variations is called Common
+LISP.  There are a number of ways in which Common LISP departs from
+previous efforts to build LISP systems.  Most significantly, Common
+LISP is defined as a /language/, rather than as an implementation of
+LISP.  It is defined as a set of specifications that could be realized
+in different ways.  With the advent of Common LISP, it is now possible
+to talk about an actual LISP language without having to talk about a
+specific implementation.
+
+The possibility of painlessly moving a LISP program from one machine
+to a quite different machine is now rather realistic.  Students may
+now learn something approaching a standard, and not have to relearn a
+great deal as they move to a different environment.
+
+To some degree it has been designed by a committee.  Some issues
+appear to be treated inconsistently.  Some of the particular decisions
+that were made are questionable.  Input in Common LISP is normally
+converted to upper case.  Some of the terminology is poor.  For
+example, the terms ``binding'' and ``special form'' are used in a
+confused and confusing fashion in Common LISP; a different terminology
+for talking abouty variable and special functions has been instituted
+here in its place.  Some critics have accused Common LISP of being too
+complex a language, making efficient implementations difficult.
+Common LISP is not a small language.
+** Scope and Aim of Common LISPcraft
+This book is designed to give the reader a working knowledge of Common
+LISP.  No formal description of the language is attempted.  The book
+emphasizes pragmatic considerations.  Programming language idioms,
+elements of various programming styles, and the actual use of the
+language are given equal attention.
+
+Certain useful programming language styles are suggested to the reader
+for consideration.  Comments about good and bad programming style are
+given throughout.  These generally derive from observations of LISP
+programming practice rarther than from stylistic prejudices.
+
+While this document is self-contained, it does not exhaust or fully
+describe every aspect of Common LISP.  The reader may consult Common
+LISP: The Language by Guy L. Steele, Jr., the bible of specification
+for all Common LISPs.
+** Format
+Programming in a computer language is a skill like any other:
+proficiency does not come without practice.  The best programming
+language text will not promote fluency in a language unless the reader
+uses the language as he goes along.  With this in mind, this book has
+been designed as an interactive session with the LISP interpreter.  To
+get the most out of this book the reader should participate in the
+dialogues given below by running LISP, typing in the expressions as
+they appear, and noting the responses given by the LISP system.
+
+Equally important are the exercises at the end of each chapter.  These
+are designed not onlyil to develop a facility for LISP programming,
+but to acquaint the reader with some details of Common LISP that
+cannot be adequately covered in the text.
+
+This book should be viewed more as a travel guide than as a textbook.
+Without the accompanying exploration, real learning is not possible.
+The reader should first familiarize himself with the basic features of
+the language as described in the initial chapter of this text.
+
+The reader is encouraged to take the time to make as many side trips
+as possible.  Not everything the reader encounters in this
+explorations will make sense at first.
+
+* Acknowledgments
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+- Paul Hilfinger
+- Richard Fateman
+- James Larus
+- Peter Pirolli
+- Guy L. Steele, Jr. /Common LISP: The Language/
+* Getting Started
+** Introduction
+The basic elements of LISP.
+- S-EXPRESSION :: primary data struction of LISP
+- LISP INTERPRETER :: constitutes the heart of any LISP system;
+- EVALUATION :: computations on s-expressions
+- LISTS :: major category of s-expressions
+- ATOMS :: major category of s-expressions
+
+First LISP functions, largely concerned with arithmetic computation.
+
+How to store the value of a computation for subsequent use.
+
+How to recover from an error.
+
+Become family with the syntax of LISP.
+
+How to specify and understand complex computations.
+
+** The LISP Interpreter
+LISP is normally used as an /interpreter/.  You type in arguments and
+an operation to perform on them.  The ``calculator'' does the
+operation and prints out an answer.  To begin a session with the LISP
+calculator, you first need to start up a LISP process.  This is
+generally done by issuig the command to your operating system to run
+LISP.  LISP will identify itself and signal that it is ready to accept
+an input.
+
+: Generic Common LISP
+: ->
+
+The arrow is LISP's signal that it is waiting for an input.
+
+Now we are ready to ask the LISP calculator to perform an operation.
+First, begin the command with a parenthesis.  Next, specify the name
+of an operation to perform.  Then give the arguments to use.  Finish
+the whole thing off with a final parenthesis.  If we want to computer
+``8 + 3'' using our LISP calculator, type the following:
+
+: -> (+ 8 3)
+: 11
+: ->
+
+=+= is the name for the addition operator; =8= and =3= are the
+arguments to this operator.
+
+_S-EXPRESSIONS_
+
+LISP programmers call commands like these /s-expressions/, which
+stands for /symbolic expressions/.  This is a very general term,
+applicable to just about anything one can say in LISP.This terminology
+is used because LISP is normally used for things other than numeric
+computation.  The basic form of all symbolic expressions will be
+similar.  This is most of the syntax of LISP.
+
+** Evaluation
+_LISTS_
+
+The symbolic expressions given above are also called /lists/.  A list
+is just a sequence of objects inside a pair of parentheses.  LISP
+assumes that the first element of the list is an operator.  It assumes
+that the rest of the list contains arguments to this operator.  LISP
+applies the operator to the arguments.  This process of taking a
+symbolic expression, or list, and performing a computation based on it
+is called /evaluation/.  The resulf of evaluating an s-expression is
+called the /value/ of that expression.  In the list =(+ 8 3)=, LISP
+assumed that the =+= is an operator to be applied to the arguments =8=
+and =3=.  The result of this evaluation was the value =11=.  When it
+had finished evaluating this s-expression, LISP printed out the
+resulting value on the terminal.
+
+*** Evaluating More Complicated S-Expressions
+Suppose we want to compute something a bit more complicated.  Suppose
+we want to know the value of =8*(3+7)=.  To do this computation in
+LISP, type the following expression:
+
+: -> (* 8 (+ 3 7))
+: 80
+: ->
+
+Note that this expression looks just like the last expression we
+evaluated except that here the second argument is itself an
+expression.  When LISP evaluatesan expression, it evaluates the
+arguments to the operator /before/ it applies that operator to the
+arguments.  So when LISP tries to apply =*= to the second argument, it
+notices that this argument is itself an expression and evaluates it.
+The result of this evaluation is used as the argument for subsequent
+computation.  LISP evaluates =(+ 3 7)= to produce the result =10=.
+Then it multiplies the argument =8= times =10= to get the final
+result.
+
+S-expressions, or lists, can contain elements that are themselves
+s-expressions, or lists.  We can nest this construction as much as we
+like, that is, put lists inside lists inside lists, and so on.  LISP
+will evaluate every expression according to one simple rule:
+
+- THE LIST EVALUATION RULE :: Look at the outermost list first.
+  Evaluate each of its arguments.  Use the results as arguments to the
+  outermost operator.
+
+In this manner, we can use LISP to compute expressions of arbitrary
+complexity.
+
+*** LISP Evaluates Everything
+
+LISP evaluates complex arguments in order to apply an operator.
+Actually, LISP tries to evaluate /all/ its arguments, even simple ones
+like =8= and =3=.  What does it mean to evaluate a nubmer?  The
+answer, in LISP, is that numbers evaluate to themselves.  That is, any
+time LISP tries to evaluate =8=, the answer is always =8=; when it
+tries to evaluate =3=, the answer is always =3=.
+
+: -> 8
+: 8
+: -> 3
+: 3
+: ->
+
+In sum, numbers are really s-expressions too.  They are just very
+simple ones that always evaluate to themselves.
+
+*** Expressions Always Return a Value
+Another general rule about LISP that has been true so far is that
+expressions always return a value.  When we evaluate the innermost
+argument of a complicated expression, the result is a value that is
+used by the next stage of our computation.  Eventually a value is
+returned from the evaluation of the whole expression.  LISP prints
+this value back to the user.
+
+** Arguments to Functions
+There can be any number of arguments to an operator.  Most LISP
+functions require a fixed number of arguments.  Some operators take an
+unlimited number of arguments.
+
+_TOP LEVEL_
+
+The top level of LISP is the place where LISP has finished all pending
+evaluations and is waiting for new input from the user.
+
+_FUNCTIONS_
+
+LISP is somewhat unusual in that virtually everything gets done by
+executing a function.  There is really no more to LISP than that.  All
+the complexity of LISP comes from the particular functions LISP
+provides and the details of how various types of functions are treated
+by the interpreter.
+
+*** Supplied Arguments and Actual Arguments
+Since LISP has a tendency to evaluate the arguments to a function, we
+sometimes have need to distinguish between the objects supplied to a
+function, and the objects that the function operates on.  We will
+refer to the objects present in a call to a function as the /supplied
+arguments/.  We will call their values, upon which the computation is
+performed, as the /actual arguments/.  Thus, =(+ 3 7)= above is an
+argument /supplied/ to =*=, while =10= is the corresponding /actual/
+argument.  We will use the undifferentiated term /argument/ to refer
+to either the supplied argument or the actual argument.  In most
+situations it will be clear from the context which object is being
+referred to.
+** Symbols
+We have not seen any way to store the results of computations.  We
+need something to fill the role played by variables in other
+programming languages.  LISP provides a similar service through the
+use /symbols/.  Symbols look like variables, although symbols have
+other uses as well.  Just as one can assign a value toa  variable in
+most programming languages, one can assign a value to a symbol in
+LISP.
+
+Most programming languages provide a special notation for assignment,
+e.g., an assignment arrow or an equal sign.  However, LISP does not
+such thing.  Instead, LISP  uses its routine workhorse, the function.
+LISP has a special function which assigns the value of one of its
+arguments to the other argument.  This function goes under the rather
+peculiar name of =setq=.  To assign =5= to =x= in LISP, we do the
+following:
+
+: -> (setq x 5)
+: 5
+: ->
+
+We can now query LISP about the value of =x=:
+
+: -> x
+: 5
+: ->
+
+The use of =setq= has caused LISP to remember a value for =x=.
+
+Another way of saying this is that symbols are also s-expressions that
+LISP tries to evaluate when we type them in.  The value of a symbol in
+LISP is the value assigned to that symbol by some previous assignment
+operation.
+
+We can use a symbol wherever we expect an s-expression to appear.
+Note that useing a symbol as an argument to a function does not
+ordinarily change its value, unless that function is something
+specially designed for that purpose, like =setq=.
+
+What would the value of a symbol be if it were not explicitly assigned
+a value by a call to a previous assignment function?  Attempting to
+evaluate the symbol =money= caused an error.  In particular, LISP
+complained that =money= is an /unassigned/ symbol, i.e., that it was
+never assigned a value.  LISP considers this to be an error.
+
+*** Special Functions
+
+LISP treats =setq= differently from other functions because =setq= is
+an instance of a /special function/.  Whereas LISP causes the
+arguments to an ordinary function to be evaluated, LISP may handle the
+arguments of each special function rather idiosyncratically.  There
+are only a small number of special functions in LISP.
+
+Note that when we assigned =x= a value using =setq=, LISP also printed
+out that value.  That is, the expression =(setq x 5)= returned the
+value =5= /in addition to assigning =x= the value =5=/.  This is
+important in that we can use the value returned by =setq= to continue
+the computation.  Consider the following:
+
+: -> (+ 2 (setq x (* 3 4)))
+: 14
+: -> x
+: 12
+
+Apply the rule of LISP evaluation:
+
+- LISP tries to evalute arguments first, so first it evaluates =2= to
+  =2=.
+- The second argument then gets evaluated.
+- This is =setq=, so to evaluate it, LISP only evaluates its second argument.
+- This causes the =*= function to be applied to =3= and =4=, and the value
+  =12= is computed.
+- Then =setq= is applied to =x= and =12=.
+- =setq= sets =x= to =12= and also returns =12= as its value.
+- =+= is now applied to =2= and =12=, and the answer is =14= returned.
+- Since =x= was changed in the process, we can query LISP for its value
+  afterwards.
+
+*** Function Names and Symbols
+
+The names that we use to denote functions in LISP, e.g. =*=, =+=, =1+=
+and =setq=, do not constitute a separate class of object.  Rather,
+these are symbols, just like =x=, =y=, and =foo=.  As far as LISP is
+concerned, the only difference between the first group of symbols and
+the second is that members of the former group are known to LISP as
+denoting some function, while those of the latter are not.
+
+Other than the fact that they denote functions built into LISP, there
+is nothing at all special about the symbols =+=, =1+=, etc.  We can
+assign values to these symbols just as we can to les prominent
+symbols:
+
+: -> (setq 1+ 17)
+: 17
+: -> 1+
+: 17
+: ->
+
+Since =1+= appears in an argument position in the call to ~setq~, LISP
+completely ignores the fact that the symbol =1+= is normally used to
+refer to a function.  Instead, the symbol =1+= is assigned a value, as
+would any other symbol passed to ~setq~ in this manner.  Afterwards,
+we see that =1+= evaluates to the value it has just been assigned,
+just like a ``normal'' symbol would.
+
+But what about =1+= 's ability to act as a function?  Let us see if it
+is still reliable:
+
+: -> (1+ 3)
+: 4
+: ->
+
+Assigning =1+= a value has absolutely no effect whatsoever on its role
+as a function name.
+
+Symbols serve the dual roles of function identifiers and variable
+specifiers in LISP.  And it is possible to use symbols for both roles
+simultaneously.  In principle, symbols can have multiple roles in
+LISP, because the LISP interpreter can determine the role served by a
+particular symbol from its context.  If we ask LISP to evaluate a list
+that begins with a symbol, LISP interprets taht symbol as naming a
+function; if we ask LISP to evaluate just a plain symbol, LISP
+interprets that symbol as referring to a variable.  LISP is not
+confused by expressions like ~(setq 1+ 17)~: it knows that ~setq~ is
+meant to be used to refer to a function because it occurs in the
+beginning of the list; it knows that =1+= is intended as a variable
+because it occurs elsewhere.
+
+Since the interpretation of a symbol is clear from context, LISP
+programmers tend to talk in an informal way about the roles played by
+symbols.
+
+- variable =x= :: the variable named by the symbol =x=
+- function =setq= :: the function named by the symbol =setq=
+
+*** Atoms
+So far, we have encountered three different kinds of LISP objects:
+
+- symbols
+- numbers
+- lists
+
+LISP imposes an additional layer of organization upon these objects.
+Namely, we use the term ~atom~ to refer to just aboutany LISP object
+that is not viewed as having parts.  In particular, numbers and
+symbols are both considered to be atoms; lists are not.  Symbols are
+sometimes referred to as /literal atoms/, a term that emphasizes their
+common heritage with other primitive LISP elements.
+
+** Leaving LISP
+If at any point you should wish to terminate your current session with
+the LISP interpreter, most LISPs have some function that will do so.
+Sunction a function is often called ~exit~.  This is a function of no
+arguments which terminates the current LISP process.  Thus executing 
+
+: -> (exit)
+
+will return the user to the operating system interface from which the
+LISP process was originally created.
+
+_NOTE_: There is no standard Common LISP function for returning to the
+operating system.  On LISP machines, no such function exists as there
+is no notion of a separate operating system.
+
+~exit~ kills the current LISP process, so if you want to play with
+LISP some more, you will have to create a new process.  This new
+process will not know about any of the things you did in  your
+previoius session.
+
+** Summary
+Types of LISP objects:
+
+1) /s-expressions/ :: encompass everything we have seen, including
+   both lists and atoms;
+
+2) /lists/ :: sequences of s-expressions inside matching
+   parentheses;
+
+3) /atoms/ :: s-expressions the LISP treats as whole things.  There
+   are two kinds of attoms:
+
+   - /numbers/
+
+   - /symbols/ (literal atoms); fill the roles of both variables and
+     function names
+
+
+We communicate with a LISP /interpreter/, which tries to /evaluate/
+each s-expression we type in.  After evaluation, the intepreter prints
+the value if computed. This is called the /top level/ of LISP.
+
+*Evaluation* is done according to the following rules:
+
+1) Numbers evaluate to themselves;
+
+2) Symbols evaluate to the last value assigned to them;
+
+3) Lists are evaluated by interpreting the first element as a function
+   name, and the rest of the list as arguments to that function.  The
+   arguments are (usually) evaluated, and the function applied to the
+   resulting values.  The value returned by the function is the value
+   of the list.
+
+We have seen the following *functions*:
+
+1) Arithmetic functions, like =+=, =1+=, and =*=.  Some of these
+   accept any number of arguments, and some, a fixed number.  They all
+   cause their arguments to be evaluated.
+
+2) The special function ~setq~, which assigns its first argument,
+   which should be a symbol, the value of its second argument.
+
+3) The system function ~exit~.  This is a function of no arguments
+   that terminates the current LISP process.
+* Symobolic Computation
+* Defining Our Own Functions
+* Predicates-Conditional-Logical Operators
+* Iteration in Lisp
+* Recursion
+* Property Lists
+* Control Over Evaluation and Function Application
+* Lambda
+* Reading and Writing
+* Debugging
+* Writing More Flexible Functions
+* Macros
+* Macro Characters
+* List Representations
+* Non-Standard Flow of Control
+* Packages
+* Other Data Types
+* Systems Functions
+* Compilation
+* Lisp Applications---Pattern Matching
+* Lisp Appplications---Associative Data Base Management
+* Appendix
+** Appendix A Summary of Lisp Functions
+** Appendix B Special Common Lisp Symbols and Characters
 * Build Tools
 :PROPERTIES:
 :appendix: t
@@ -1158,5 +1670,5 @@ Copyright \copy 2020 by {{{author}}}
 # fill-column: 79
 # indent-tabs-mode: t
 # eval: (auto-fill-mode)
-# time-stamp-pattern: "8/^\\#\\+date:%:y-%02m-%02d %02H:%02M$"
+# time-stamp-pattern: "8/^\\#\\+updated:%:y-%02m-%02d %02H:%02M$"
 # End:
