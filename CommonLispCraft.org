@@ -4,8 +4,8 @@
 #+subtitle:{{{version}}} {{{date}}}
 #+author:Robert Wilensky
 #+date:1986
-#+updated:2021-10-17 10:43
-#+macro:version Version 0.0.1
+#+updated:2021-10-17 10:52
+#+macro:version Version 0.0.2
 #+macro:upload-date (eval (current-time-string))
 #+bucket:pinecone-forest.com
 
@@ -508,6 +508,19 @@ We have seen the following *functions*:
 3) The system function ~exit~.  This is a function of no arguments
    that terminates the current LISP process.
 * Symobolic Computation
+** Introduction
+** More on Lists
+** Taking Things Literally
+*** LISP Values are S-Expressions
+*** Forms
+** car and cdr
+*** car and cdr are Non-Destructive
+*** Parentheses are Important
+** cadr etc.
+*** cons is Non-destructive
+*** consing Requires Storage and is Expensive
+** Summary
+*** Exercises
 * Defining Our Own Functions
 * Predicates-Conditional-Logical Operators
 * Iteration in Lisp
@@ -1615,7 +1628,7 @@ nil
 :copying:  t
 :END:
 
-Copyright \copy 2020 by {{{author}}}
+Copyright \copy {{{date}}} by {{{author}}}
 
 * Concept Index
 :PROPERTIES:
